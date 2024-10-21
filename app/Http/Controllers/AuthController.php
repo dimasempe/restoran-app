@@ -37,6 +37,13 @@ class AuthController extends Controller
         return response(['data'=>$user]);
     }
 
+    function logout(){
+        // return 'logout';
+        $user = auth()->user();
+        $user->tokens()->delete(); //revoking token
+        return response(['message' => 'logout success']);
+    }
+
     public function me(){
         return response(['data'=>auth()->user()]);
     }

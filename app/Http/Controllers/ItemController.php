@@ -15,12 +15,16 @@ class ItemController extends Controller
         return response(['data' => $items]);
     }
 
+    public function show(Item $item){
+        return response(['data'=>$item]);
+    }
+
     public function store(Request $request){
         // return 'nice';
         $validateData = $request->validate([
             'name' => 'required|max:100',
             'price' => 'required|integer',
-            'image' => 'nullable|mimes:jpg,png|file|max:2048'
+            'image' => 'nullable|mimes:jpeg,jpg,png,webp,gif|file|max:2048'
         ]);
 
         if($request->file('image')){
@@ -42,7 +46,7 @@ class ItemController extends Controller
         $validateData = $request->validate([
             'name' => 'required|max:100',
             'price' => 'required|integer',
-            'image' => 'nullable|mimes:jpg,png|file|max:2048'
+            'image' => 'nullable|mimes:jpg,png,jpeg,webp,gif|file|max:2048'
         ]);
 
         if($request->file('image')){

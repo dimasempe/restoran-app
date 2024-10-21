@@ -27,5 +27,11 @@ class UserSeeder extends Seeder
         'role_id' => 4
        ]);
 
+       User::create([
+        'name' => 'namaWaitress',
+        'email' => 'waitress@gmail.com',
+        'password' => Hash::make('P@ssw0rd'),
+        'role_id' => 1
+       ]);
     }
 }

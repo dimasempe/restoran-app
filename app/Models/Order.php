@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\OrderDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
@@ -18,10 +20,14 @@ class Order extends Model
 
     public function sumOrderPrice(){
         // return 'test';
-        // $orderDetail = OrderDetail::where('order_id',$this->id)->get();
-        $priceOrderDetail = OrderDetail::where('order_id',$this->id)->pluck('price');
+        $details = OrderDetail::where('order_id',$this->id)->get();
+        // $priceOrderDetail = OrderDetail::where('order_id',$this->id)->pluck('price');
+
         // return $orderDetail;
-        return $sum = collect($priceOrderDetail)->sum();
+        // return $sum = collect($priceOrderDetail)->sum();
+        $sum = $details->sum(fn($detail) => $detail->price * $detail->quantity);
+
+        return $sum;
     }
 
     /**
@@ -32,5 +38,25 @@ class Order extends Model
     public function orderDetail(): HasMany
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
+
+    /**
+     * Get the waitress that owns the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function waitress(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'waitress_id', 'id');
+    }
+
+    /**
+     * Get the waitress that owns the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cashier(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'cashier_id', 'id');
     }
 }

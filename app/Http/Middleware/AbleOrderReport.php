@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AbleFinishOrder
+class AbleOrderReport
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class AbleFinishOrder
     {
         $user = auth()->user();
         // return response($user);
-        if($user->role_id != 2 && $user->role_id != 4){
+        if($user->role_id != 4){
             // abort(403, 'you cannot access this function');
             return response('you cannot access this function',403);
         }
